@@ -15,7 +15,7 @@ unrar -p"${SA_SECRET}" e accounts.rar /app/accounts/
 
 # Install aria2c static binary
 wget -q https://github.com/P3TERX/Aria2-Pro-Core/releases/download/1.35.0_2021.02.19/aria2-1.35.0-static-linux-amd64.tar.gz
-tar zxvf aria2-1.35.0-static-linux-amd64.tar.g
+tar zxvf aria2-1.35.0-static-linux-amd64.tar.gz
 export PATH=$PWD/aria2-1.35.0-static-linux-amd64:$PATH
 
 # Create download folder

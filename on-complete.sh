@@ -83,7 +83,7 @@ UPLOAD_FILE() {
             echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} Upload failed! Retry ${RETRY}/${RETRY_NUM} ..."
             echo
         )
-        gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}"
+        gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}" $ARG
         RCLONE_EXIT_CODE=$?
 		RCLONE_EXIT_CODE_2=0
 		if [ -n "${RCLONE_DESTINATION_2}" ]; then

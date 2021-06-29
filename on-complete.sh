@@ -13,7 +13,7 @@ MIN_SIZE="${SIZE_FILTER}"
 
 # 排除文件类型，仅 BT 多文件下载时有效，用于过滤无用文件。排除的文件将被删除，不会上传。
 # Exclude file types, valid only when downloading multiple BT files, used to filter useless files. Excluded files will be deleted and will not be uploaded.
-#EXCLUDE_FILE='html,url,lnk,txt,jpg,png'
+EXCLUDE_FILE='html,url,lnk,txt,jpg,png,nfo,torrent,jpeg,exe'
 
 ## 高级设置 advanced settings ##
 
@@ -27,7 +27,7 @@ export RCLONE_CONFIG=rclone.conf
 
 # RCLONE 块的大小，默认5M，理论上是越大上传速度越快，同时占用内存也越多。如果设置得太大，可能会导致进程中断。
 # RCLONE The size of the block, the default is 5M. Theoretically, the larger the upload speed, the faster it will occupy more memory. If the setting is too large, the process may be interrupted.
-#export RCLONE_CACHE_CHUNK_SIZE=5M
+export RCLONE_CACHE_CHUNK_SIZE=3M
 
 # RCLONE 块可以在本地磁盘上占用的总大小，默认10G。
 # RCLONE The total size that the block can occupy on the local disk, the default is 10G.
@@ -39,7 +39,7 @@ export RCLONE_CONFIG=rclone.conf
 
 # RCLONE 上传失败重试等待时间，默认禁用，单位 s, m, h
 # RCLONE Upload failure retry wait time, the default is disabled, unit s, m, h
-export RCLONE_RETRIES_SLEEP=30s
+export RCLONE_RETRIES_SLEEP=10s
 
 # RCLONE 异常退出重试次数
 # RCLONE Abnormal exit retry count
@@ -69,9 +69,9 @@ Remote path B: ${REMOTE_PATH_2}
 
 CLEAN_UP() {
     [[ -n ${MIN_SIZE} || -n ${INCLUDE_FILE} || -n ${EXCLUDE_FILE} ]] && echo -e "${INFO} Clean up excluded files ..."
-    [[ -n ${MIN_SIZE} ]] && gclone delete -v "${UPLOAD_PATH}" --max-size ${MIN_SIZE}
-    [[ -n ${INCLUDE_FILE} ]] && gclone delete -v "${UPLOAD_PATH}" --exclude "*.{${INCLUDE_FILE}}"
-    [[ -n ${EXCLUDE_FILE} ]] && gclone delete -v "${UPLOAD_PATH}" --include "*.{${EXCLUDE_FILE}}"
+    [[ -n ${MIN_SIZE} ]] && rclone delete -v "${UPLOAD_PATH}" --max-size ${MIN_SIZE}
+    [[ -n ${INCLUDE_FILE} ]] && rclone delete -v "${UPLOAD_PATH}" --exclude "*.{${INCLUDE_FILE}}"
+    [[ -n ${EXCLUDE_FILE} ]] && rclone delete -v "${UPLOAD_PATH}" --include "*.{${EXCLUDE_FILE}}"
 }
 
 UPLOAD_FILE() {
@@ -80,21 +80,21 @@ UPLOAD_FILE() {
     while [ ${RETRY} -le ${RETRY_NUM} ]; do
         [ ${RETRY} != 0 ] && (
             echo
-            echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} Upload failed! Retry ${RETRY}/${RETRY_NUM} ..."
+            echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} ${UPLOAD_PATH} Upload failed! Retry ${RETRY}/${RETRY_NUM} ..."
             echo
         )
-        gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}" $ARG
+        rclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}" --ignore-existing "${ARG}"
         RCLONE_EXIT_CODE=$?
 		RCLONE_EXIT_CODE_2=0
 		if [ -n "${RCLONE_DESTINATION_2}" ]; then
-			gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH_2}"
+			rclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH_2}"
 			RCLONE_EXIT_CODE_2=$?
 		fi
         if [ ${RCLONE_EXIT_CODE} -eq 0 ] && [ ${RCLONE_EXIT_CODE_2} -eq 0 ]; then
             [ -e "${DOT_ARIA2_FILE}" ] && rm -vf "${DOT_ARIA2_FILE}"
-            gclone rmdirs -v "${DOWNLOAD_PATH}" --leave-root
+            rclone rmdirs -v "${DOWNLOAD_PATH}" --leave-root
             echo -e "$(date +"%m/%d %H:%M:%S") ${INFO} Upload done: ${UPLOAD_PATH}"
-			gclone delete -v "${UPLOAD_PATH}"
+			rclone delete -v "${UPLOAD_PATH}"
             break
         else
             RETRY=$((${RETRY} + 1))
@@ -131,8 +131,8 @@ fi
 
 if [ "${TOP_PATH}" = "${FILE_PATH}" ] && [ $2 -eq 1 ]; then # 普通单文件下载，移动文件到设定的网盘文件夹。
     UPLOAD_PATH="${FILE_PATH}"
-    REMOTE_PATH="${RCLONE_DESTINATION}"
-    REMOTE_PATH_2="${RCLONE_DESTINATION_2}"
+    REMOTE_PATH="${RCLONE_DESTINATION}/"
+    REMOTE_PATH_2="${RCLONE_DESTINATION_2}/"
     UPLOAD
     exit 0
 elif [ "${TOP_PATH}" != "${FILE_PATH}" ] && [ $2 -gt 1 ]; then # BT下载（文件夹内文件数大于1），移动整个文件夹到设定的网盘文件夹。

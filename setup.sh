@@ -1,11 +1,10 @@
 #!/bin/bash
 
 # Install rclone static binary
-# Install rclone static binary
-wget -q --no-check-certificate https://github.com/xinxin8816/heroku-aria2c-21vianet/raw/master/rclone.zip
-unzip -q rclone.zip
+wget -q https://github.com/Kwok1am/rclone-ac/releases/download/gclone/gclone.gz
+gunzip gclone.gz
 export PATH=$PWD:$PATH
-chmod 777 /app/rclone
+chmod 777 /app/gclone
 
 #Inject Rclone config
 wget -qO accounts.zip "${SAURL}"

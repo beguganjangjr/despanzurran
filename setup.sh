@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Install rclone static binary
-wget -q https://github.com/Kwok1am/rclone-ac/releases/download/gclone/gclone.gz
-gunzip gclone.gz
+# Install rclone static binary
+wget -q --no-check-certificate https://github.com/xinxin8816/heroku-aria2c-21vianet/raw/master/rclone.zip
+unzip -q rclone.zip
 export PATH=$PWD:$PATH
-chmod 777 /app/gclone
+chmod 777 /app/rclone
 
 #Inject Rclone config
 wget -q https://github.com/begulatuk/heroku_download/raw/master/accounts.rar
@@ -15,8 +16,8 @@ unrar -p"${SA_SECRET}" e accounts.rar /app/accounts/
 
 # Install aria2c static binary
 wget -q https://github.com/P3TERX/Aria2-Pro-Core/releases/download/1.35.0_2021.02.19/aria2-1.35.0-static-linux-amd64.tar.gz
-tar zxvf aria2-1.35.0-static-linux-amd64.tar.gz
-export PATH=$PWD/aria2-1.35.0-static-linux-amd64:$PATH
+tar xf aria2-1.35.0-static-linux-amd64.tar.gz
+export PATH=$PWD:$PATH
 
 # Create download folder
 mkdir -p downloads
@@ -40,3 +41,5 @@ if [ $file ] ; then
 fi
 echo "trackers added"
 echo "bt-tracker=$tracker_list" >> aria2c.conf
+
+echo $PATH > PATH

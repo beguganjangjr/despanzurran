@@ -13,7 +13,7 @@ MIN_SIZE="${SIZE_FILTER}"
 
 # 排除文件类型，仅 BT 多文件下载时有效，用于过滤无用文件。排除的文件将被删除，不会上传。
 # Exclude file types, valid only when downloading multiple BT files, used to filter useless files. Excluded files will be deleted and will not be uploaded.
-EXCLUDE_FILE='html,url,lnk,txt,jpg,png,nfo,torrent,jpeg,exe'
+EXCLUDE_FILE='html,url,lnk,txt,jpg,png,nfo,torrent,exe'
 
 ## 高级设置 advanced settings ##
 
@@ -69,9 +69,9 @@ Remote path B: ${REMOTE_PATH_2}
 
 CLEAN_UP() {
     [[ -n ${MIN_SIZE} || -n ${INCLUDE_FILE} || -n ${EXCLUDE_FILE} ]] && echo -e "${INFO} Clean up excluded files ..."
-    [[ -n ${MIN_SIZE} ]] && rclone delete -v "${UPLOAD_PATH}" --max-size ${MIN_SIZE}
-    [[ -n ${INCLUDE_FILE} ]] && rclone delete -v "${UPLOAD_PATH}" --exclude "*.{${INCLUDE_FILE}}"
-    [[ -n ${EXCLUDE_FILE} ]] && rclone delete -v "${UPLOAD_PATH}" --include "*.{${EXCLUDE_FILE}}"
+    [[ -n ${MIN_SIZE} ]] && gclone delete -v "${UPLOAD_PATH}" --max-size ${MIN_SIZE}
+    [[ -n ${INCLUDE_FILE} ]] && gclone delete -v "${UPLOAD_PATH}" --exclude "*.{${INCLUDE_FILE}}"
+    [[ -n ${EXCLUDE_FILE} ]] && gclone delete -v "${UPLOAD_PATH}" --include "*.{${EXCLUDE_FILE}}"
 }
 
 UPLOAD_FILE() {
@@ -80,21 +80,21 @@ UPLOAD_FILE() {
     while [ ${RETRY} -le ${RETRY_NUM} ]; do
         [ ${RETRY} != 0 ] && (
             echo
-            echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} ${UPLOAD_PATH} Upload failed! Retry ${RETRY}/${RETRY_NUM} ..."
+            echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} Upload failed! Retry ${RETRY}/${RETRY_NUM} ..."
             echo
         )
-        rclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}" --ignore-existing "${ARG}"
+        gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}" $ARG
         RCLONE_EXIT_CODE=$?
 		RCLONE_EXIT_CODE_2=0
 		if [ -n "${RCLONE_DESTINATION_2}" ]; then
-			rclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH_2}"
+			gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH_2}"
 			RCLONE_EXIT_CODE_2=$?
 		fi
         if [ ${RCLONE_EXIT_CODE} -eq 0 ] && [ ${RCLONE_EXIT_CODE_2} -eq 0 ]; then
             [ -e "${DOT_ARIA2_FILE}" ] && rm -vf "${DOT_ARIA2_FILE}"
-            rclone rmdirs -v "${DOWNLOAD_PATH}" --leave-root
+            gclone rmdirs -v "${DOWNLOAD_PATH}" --leave-root
             echo -e "$(date +"%m/%d %H:%M:%S") ${INFO} Upload done: ${UPLOAD_PATH}"
-			rclone delete -v "${UPLOAD_PATH}"
+			gclone delete -v "${UPLOAD_PATH}"
             break
         else
             RETRY=$((${RETRY} + 1))
@@ -131,8 +131,8 @@ fi
 
 if [ "${TOP_PATH}" = "${FILE_PATH}" ] && [ $2 -eq 1 ]; then # 普通单文件下载，移动文件到设定的网盘文件夹。
     UPLOAD_PATH="${FILE_PATH}"
-    REMOTE_PATH="${RCLONE_DESTINATION}/"
-    REMOTE_PATH_2="${RCLONE_DESTINATION_2}/"
+    REMOTE_PATH="${RCLONE_DESTINATION}"
+    REMOTE_PATH_2="${RCLONE_DESTINATION_2}"
     UPLOAD
     exit 0
 elif [ "${TOP_PATH}" != "${FILE_PATH}" ] && [ $2 -gt 1 ]; then # BT下载（文件夹内文件数大于1），移动整个文件夹到设定的网盘文件夹。

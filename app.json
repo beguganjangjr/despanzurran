@@ -17,8 +17,8 @@
 			"description": "Aria2c's secret",
 			"value": ""
 		},
-		"SA_SECRET": {
-			"description": "SA's secret",
+		"SAURL": {
+			"description": "SA's URL",
 			"value": ""
 		},
 		"SIZE_FILTER": {
@@ -37,7 +37,7 @@
 		"RCLONE_DESTINATION_2": {
 			"description": "If you mount a second cloud drive, then fill in \"[drivename B]:[remove path B]\"",
 			"required": false,
-			"value": "OneDrive:tmp"
+			"value": ""
 		}
 	},
 	"buildpacks": [

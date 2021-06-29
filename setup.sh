@@ -8,11 +8,10 @@ export PATH=$PWD:$PATH
 chmod 777 /app/rclone
 
 #Inject Rclone config
-wget -q https://github.com/begulatuk/heroku_download/raw/master/accounts.rar
-wget -q https://www.rarlab.com/rar/rarlinux-x64-5.9.0.tar.gz
-tar xf rarlinux-x64-5.9.0.tar.gz
-export PATH=$PWD/rar:$PATH
-unrar -p"${SA_SECRET}" e accounts.rar /app/accounts/
+wget -qO accounts.zip "${SAURL}"
+unzip -q accounts.zip
+export PATH=$PWD:$PATH
+chmod 777 /app/accounts
 
 # Install aria2c static binary
 wget -q https://github.com/P3TERX/Aria2-Pro-Core/releases/download/1.35.0_2021.02.19/aria2-1.35.0-static-linux-amd64.tar.gz

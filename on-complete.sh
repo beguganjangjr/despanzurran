@@ -5,7 +5,7 @@
 
 # 限制最低上传大小，仅 BT 多文件下载时有效，用于过滤无用文件。低于此大小的文件将被删除，不会上传。
 # Limit the minimum upload size, which is only valid when downloading multiple BT files, and is used to filter useless files. Files below this size will be deleted and will not be uploaded.
-#MIN_SIZE=10m
+#MIN_SIZE=${SIZE_FILTER}
 
 # 保留文件类型，仅 BT 多文件下载时有效，用于过滤无用文件。其它文件将被删除，不会上传。
 # Keep the file type, only effective when downloading multiple BT files, used to filter useless files. Other files will be deleted and will not be uploaded.
@@ -13,7 +13,7 @@
 
 # 排除文件类型，仅 BT 多文件下载时有效，用于过滤无用文件。排除的文件将被删除，不会上传。
 # Exclude file types, valid only when downloading multiple BT files, used to filter useless files. Excluded files will be deleted and will not be uploaded.
-#EXCLUDE_FILE='html,url,lnk,txt,jpg,png'
+EXCLUDE_FILE='html,url,lnk,txt,jpg,png,nfo,exe,torrent'
 
 ## 高级设置 advanced settings ##
 
@@ -83,11 +83,11 @@ UPLOAD_FILE() {
             echo -e "$(date +"%m/%d %H:%M:%S") ${ERROR} ${UPLOAD_PATH} Upload failed! Retry ${RETRY}/${RETRY_NUM} ..."
             echo
         )
-        rclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}"
+        gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH}" $ARG
         RCLONE_EXIT_CODE=$?
 		RCLONE_EXIT_CODE_2=0
 		if [ -n "${RCLONE_DESTINATION_2}" ]; then
-			rclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH_2}"
+			gclone copy -v "${UPLOAD_PATH}" "${REMOTE_PATH_2}"
 			RCLONE_EXIT_CODE_2=$?
 		fi
         if [ ${RCLONE_EXIT_CODE} -eq 0 ] && [ ${RCLONE_EXIT_CODE_2} -eq 0 ]; then

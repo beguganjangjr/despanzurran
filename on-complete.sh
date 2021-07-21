@@ -5,7 +5,7 @@
 
 # 限制最低上传大小，仅 BT 多文件下载时有效，用于过滤无用文件。低于此大小的文件将被删除，不会上传。
 # Limit the minimum upload size, which is only valid when downloading multiple BT files, and is used to filter useless files. Files below this size will be deleted and will not be uploaded.
-#MIN_SIZE=${SIZE_FILTER}
+MIN_SIZE=${SIZE_FILTER}
 
 # 保留文件类型，仅 BT 多文件下载时有效，用于过滤无用文件。其它文件将被删除，不会上传。
 # Keep the file type, only effective when downloading multiple BT files, used to filter useless files. Other files will be deleted and will not be uploaded.

@@ -26,9 +26,9 @@ wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht6.dat
 
 # Tracker
 file="trackers.txt"
-echo "$(curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt)" > trackers.txt
+echo "$(curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/best.txt)" > trackers.txt
 echo "$(curl -Ns https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_ip.txt)" >> trackers.txt
-echo "$(curl -Ns https://newtrackon.com/api/live)" >> trackers.txt
+echo "$(curl -Ns https://newtrackon.com/api/stable)" >> trackers.txt
 tmp=$(sort trackers.txt | uniq) && echo "$tmp" > trackers.txt
 sed -i '/^$/d' trackers.txt
 sed -i ":a;N;s/\n/,/g;ta" trackers.txt

@@ -37,7 +37,9 @@ if [ $file ] ; then
     rm -rf $file
 
 fi
-echo "trackers added"
+echo "adding trackers and set listen-port=$PORT"
+
 echo "bt-tracker=$tracker_list" >> aria2c.conf
+echo "listen-port=$PORT" >> aria2c.conf
 
 echo $PATH > PATH

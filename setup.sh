@@ -38,9 +38,9 @@ if [ $file ] ; then
     rm -rf $file
 
 fi
-echo "adding trackers and set listen-port=$(( PORTING + 1 ))"
+echo "adding trackers and set listen-port=$(( PORTING - 1 ))"
 
 echo "bt-tracker=$tracker_list" >> aria2c.conf
-echo "listen-port=$(( PORTING + 1 ))" >> aria2c.conf
+echo "listen-port=$(( PORTING - 1 ))" >> aria2c.conf
 
 echo $PATH > PATH

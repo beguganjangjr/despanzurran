@@ -41,7 +41,7 @@ fi
 echo "adding trackers and set listen-port=$(( PORTING - 1 )) and dht-listen-port=6881-6999,$PORT"
 
 echo "bt-tracker=$tracker_list" >> aria2c.conf
-echo "listen-port=$(( PORTING - 1 ))" >> aria2c.conf
+echo "listen-port=$(( PORTING + 1 ))" >> aria2c.conf
 echo "dht-listen-port=6881-6999,$PORT" >> aria2c.conf
 
 echo $PATH > PATH

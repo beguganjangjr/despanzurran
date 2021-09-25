@@ -30,6 +30,9 @@ PORTING=$PORT
 echo "$(curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt)" > trackers.txt
 echo "$(curl -Ns https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_ip.txt)" >> trackers.txt
 echo "$(curl -Ns https://newtrackon.com/api/stable)" >> trackers.txt
+echo "$(curl -Ns https://newtrackon.com/api/live)" >> trackers.txt
+echo "$(curl -Ns https://cdn.jsdelivr.net/gh/ngosang/trackerslist@master/trackers_all.txt)" >> trackers.txt
+
 tmp=$(sort trackers.txt | uniq) && echo "$tmp" > trackers.txt
 sed -i '/^$/d' trackers.txt
 sed -i ":a;N;s/\n/,/g;ta" trackers.txt

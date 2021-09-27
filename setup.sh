@@ -29,7 +29,7 @@ file="trackers.txt"
 PORTING=$PORT
 echo "$(curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt)" > trackers.txt
 echo "$(curl -Ns https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_ip.txt)" >> trackers.txt
-echo "$(curl -Ns https://newtrackon.com/api/stable)" >> trackers.txt
+echo "$(curl -Ns https://at.raxianch.moe/ATline_all.txt)" >> trackers.txt
 echo "$(curl -Ns https://newtrackon.com/api/live)" >> trackers.txt
 echo "$(curl -Ns https://cdn.jsdelivr.net/gh/ngosang/trackerslist@master/trackers_all.txt)" >> trackers.txt
 
@@ -44,7 +44,7 @@ fi
 echo "adding trackers and set listen-port=$(( PORT - 1 ))-$(( PORT + 1 )) and dht-listen-port=6881-6999,$PORT"
 
 echo "bt-tracker=$tracker_list" >> aria2c.conf
-echo "listen-port=6881-6999,$(( PORT - 1 ))-$(( PORT + 1 ))" >> aria2c.conf
+echo "listen-port=$PORT,6881-6999,$(( PORT - 1 ))-$(( PORT + 1 ))" >> aria2c.conf
 #echo "dht-listen-port=6881-6999" >> aria2c.conf
 
 echo $PATH > PATH

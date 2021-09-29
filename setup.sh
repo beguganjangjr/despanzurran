@@ -15,6 +15,7 @@ chmod 777 /app/accounts
 # Install aria2c static binary
 wget -q https://github.com/P3TERX/Aria2-Pro-Core/releases/download/1.36.0_2021.08.22/aria2-1.36.0-static-linux-amd64.tar.gz
 tar xf aria2-1.36.0-static-linux-amd64.tar.gz
+rm aria2-1.36.0-static-linux-amd64.tar.gz
 export PATH=$PWD:$PATH
 
 # Create download folder
@@ -44,7 +45,7 @@ fi
 echo "adding trackers and set listen-port=$(( PORT - 1 ))-$(( PORT + 1 )) and dht-listen-port=6881-6999,$PORT"
 
 echo "bt-tracker=$tracker_list" >> aria2c.conf
-echo "listen-port=$PORT,6881-6999" >> aria2c.conf
+echo "listen-port=$PORT,59171,6881-6999" >> aria2c.conf
 #echo "dht-listen-port=$PORT,6881-6999" >> aria2c.conf
 
 echo $PATH > PATH

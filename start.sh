@@ -15,6 +15,7 @@ if [[ -n $RCLONE_CONFIG && -n $RCLONE_DESTINATION ]]; then
 	chmod +x on-stop.sh
 	chmod +x on-complete.sh
 fi
+echo "$(cat aria2c.conf)"
 echo "rpc-secret=$ARIA2C_SECRET" >> aria2c.conf
 aria2c -q --conf-path=aria2c.conf&
 npm start

@@ -26,22 +26,7 @@ wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht.dat
 wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht6.dat
 
 # Tracker
-file="trackers.txt"
-PORTING=$PORT
-echo "$(curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt)" > trackers.txt
-echo "$(curl -Ns https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_ip.txt)" >> trackers.txt
-echo "$(curl -Ns https://at.raxianch.moe/ATline_all.txt)" >> trackers.txt
-echo "$(curl -Ns https://newtrackon.com/api/stable)" >> trackers.txt
-echo "$(curl -Ns https://cdn.jsdelivr.net/gh/ngosang/trackerslist@master/trackers_all.txt)" >> trackers.txt
-
-tmp=$(sort trackers.txt | uniq) && echo "$tmp" > trackers.txt
-sed -i '/^$/d' trackers.txt
-sed -i ":a;N;s/\n/,/g;ta" trackers.txt
-tracker_list=$(cat trackers.txt)
-if [ $file ] ; then
-    rm -rf $file
-
-fi
+tracker_list=`curl -Ns https://newtrackon.com/api/stable | awk '$1' | tr '\n' ',' | cat`
 echo "adding trackers and set listen-port=$PORT and dht-listen-port=6881-6999,$PORT"
 
 echo "bt-tracker=$tracker_list" >> aria2c.conf

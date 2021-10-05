@@ -26,7 +26,7 @@ wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht.dat
 wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht6.dat
 
 # Tracker
-tracker_list=`curl -Ns https://newtrackon.com/api/stable | awk '$1' | tr '\n' ',' | cat`
+tracker_list=$(wget -qO- https://newtrackon.com/api/stable |awk NF|sed ":a;N;s/\n/,/g;ta")
 echo "adding trackers and set listen-port=$PORT and dht-listen-port=6881-6999,$PORT"
 
 echo "bt-tracker=$tracker_list" >> aria2c.conf

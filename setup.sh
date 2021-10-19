@@ -29,6 +29,9 @@ wget -q https://github.com/P3TERX/aria2.conf/raw/master/dht6.dat
 file="trackers.txt"
 echo "$(curl -Ns https://newtrackon.com/api/stable)" > trackers.txt
 echo "$(curl -Ns https://trackerslist.com/all.txt)" >> trackers.txt
+echo "$(curl -Ns https://cdn.jsdelivr.net/gh/DeSireFire/animeTrackerList/AT_all.txt)" >> trackers.txt
+echo "$(curl -Ns https://torrends.to/torrent-tracker-list/?download=latest)" >> trackers.txt
+echo "$(curl -Ns https://cdn.jsdelivr.net/gh/ngosang/trackerslist@master/trackers_best_ip.txt)" >> trackers.txt
 sed -i '/^$/d' trackers.txt
 sed -i ':a;N;s/\n/,/g;ta'  trackers.txt
 tracker_list=$(cat trackers.txt)

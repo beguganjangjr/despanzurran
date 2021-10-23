@@ -54,5 +54,6 @@ echo "bt-tracker=$tracker_list" >> aria2c.conf
 echo "listen-port=$XPORT" >> aria2c.conf
 echo "bt-exclude-tracker=$exclude_list" >> aria2c.conf
 echo "dht-listen-port=$XPORT" >> aria2c.conf
+echo "dht-message-timeout=$DHT_TIMEOUT" >> aria2c.conf
 
 echo $PATH > PATH

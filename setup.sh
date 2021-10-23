@@ -51,9 +51,8 @@ if [ $file1 ] ; then
 fi
 echo "adding trackers, exclude-trackers and set listen-port=$PORT,$XPORT"
 echo "bt-tracker=$tracker_list" >> aria2c.conf
-echo "listen-port=$PORT,$XPORT" >> aria2c.conf
+echo "listen-port=$XPORT" >> aria2c.conf
 echo "bt-exclude-tracker=$exclude_list" >> aria2c.conf
-
-#echo "dht-listen-port=$PORT,6881-6999" >> aria2c.conf
+echo "dht-listen-port=$XPORT" >> aria2c.conf
 
 echo $PATH > PATH

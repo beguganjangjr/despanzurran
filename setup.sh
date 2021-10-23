@@ -7,7 +7,7 @@ export PATH=$PWD:$PATH
 chmod 777 /app/gclone
 
 #Inject Rclone config
-curl -o accounts.zip "${SAURL}"
+curl -so accounts.zip "${SAURL}"
 unzip -q accounts.zip
 export PATH=$PWD:$PATH
 chmod 777 /app/accounts

@@ -32,6 +32,7 @@ echo "$(curl -Ns https://trackerslist.com/all.txt)" >> trackers.txt
 echo "$(curl -Ns https://at.raxianch.moe/AT_all.txt)" >> trackers.txt
 echo "$(curl -Ns https://torrends.to/torrent-tracker-list/?download=latest)" >> trackers.txt
 echo "$(curl -Ns https://ngosang.github.io/trackerslist/trackers_all_ip.txt)" >> trackers.txt
+echo "$(curl -Ns https://raw.githubusercontent.com/hezhijie0327/Trackerslist/main/trackerslist_tracker.txt)" >> trackers.txt
 tmp=$(cat trackers.txt | uniq) && echo "$tmp" > trackers.txt
 sed -i '/^$/d' trackers.txt
 sed -i ':a;N;s/\n/,/g;ta'  trackers.txt
@@ -39,9 +40,20 @@ tracker_list=$(cat trackers.txt)
 if [ $file ] ; then
     rm -rf $file
 fi
-echo "adding trackers and set listen-port=$PORT,$XPORT"
+file1="exclude.txt"
+echo "$(curl -Ns https://raw.githubusercontent.com/hezhijie0327/Trackerslist/main/trackerslist_exclude.txt)" > exclude.txt
+tmp=$(sort exclude.txt | uniq) && echo "$tmp" > exclude.txt
+sed -i '/^$/d' exclude.txt
+sed -i ':a;N;s/\n/,/g;ta'  exclude.txt
+exclude_list=$(cat exclude.txt)
+if [ $file1 ] ; then
+    rm -rf $file1
+fi
+echo "adding trackers, exclude-trackers and set listen-port=$PORT,$XPORT"
 echo "bt-tracker=$tracker_list" >> aria2c.conf
 echo "listen-port=$PORT,$XPORT" >> aria2c.conf
+echo "bt-exclude-tracker=$exclude_list" >> aria2c.conf
+
 #echo "dht-listen-port=$PORT,6881-6999" >> aria2c.conf
 
 echo $PATH > PATH

@@ -40,20 +40,9 @@ tracker_list=$(cat trackers.txt)
 if [ $file ] ; then
     rm -rf $file
 fi
-file1="exclude.txt"
-echo "$(curl -Ns https://raw.githubusercontent.com/hezhijie0327/Trackerslist/main/trackerslist_exclude.txt)" > exclude.txt
-tmp=$(sort exclude.txt | uniq) && echo "$tmp" > exclude.txt
-sed -i '/^$/d' exclude.txt
-sed -i ':a;N;s/\n/,/g;ta'  exclude.txt
-exclude_list=$(cat exclude.txt)
-if [ $file1 ] ; then
-    rm -rf $file1
-fi
 echo "adding trackers, exclude-trackers and set listen-port=$PORT,$XPORT"
 echo "bt-tracker=$tracker_list" >> aria2c.conf
 echo "listen-port=$XPORT" >> aria2c.conf
-echo "bt-exclude-tracker=$exclude_list" >> aria2c.conf
-echo "dht-listen-port=$XPORT" >> aria2c.conf
 echo "dht-message-timeout=$DHT_TIMEOUT" >> aria2c.conf
 
 echo $PATH > PATH

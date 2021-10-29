@@ -33,7 +33,7 @@ echo "$(curl -Ns https://at.raxianch.moe/AT_all.txt)" >> trackers.txt
 echo "$(curl -Ns https://torrends.to/torrent-tracker-list/?download=latest)" >> trackers.txt
 echo "$(curl -Ns https://ngosang.github.io/trackerslist/trackers_all_ip.txt)" >> trackers.txt
 echo "$(curl -Ns https://raw.githubusercontent.com/hezhijie0327/Trackerslist/main/trackerslist_tracker.txt)" >> trackers.txt
-tmp=$(cat trackers.txt | uniq) && echo "$tmp" > trackers.txt
+tmp=$(sort trackers.txt | uniq) && echo "$tmp" > trackers.txt
 sed -i '/^$/d' trackers.txt
 sed -i ':a;N;s/\n/,/g;ta'  trackers.txt
 tracker_list=$(cat trackers.txt)
@@ -42,7 +42,7 @@ if [ $file ] ; then
 fi
 echo "adding trackers, exclude-trackers and set listen-port=$PORT,$XPORT"
 echo "bt-tracker=$tracker_list" >> aria2c.conf
-echo "listen-port=$XPORT" >> aria2c.conf
-echo "dht-message-timeout=$DHT_TIMEOUT" >> aria2c.conf
+echo "listen-port=$PORT,$XPORT" >> aria2c.conf
+#echo "dht-message-timeout=$DHT_TIMEOUT" >> aria2c.conf
 
 echo $PATH > PATH

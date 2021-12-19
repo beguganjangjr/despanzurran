@@ -42,7 +42,7 @@ if [ $file ] ; then
 fi
 echo "adding trackers, exclude-trackers and set listen-port=$PORT,$XPORT"
 echo "bt-tracker=$tracker_list" >> aria2c.conf
-echo "listen-port=$PORT,$((PORT - 1))-$((PORT + 1)),$XPORT" >> aria2c.conf
+echo "listen-port=$PORT,$XPORT,$((PORT - 1))-$((PORT + 1))" >> aria2c.conf
 #echo "dht-message-timeout=$DHT_TIMEOUT" >> aria2c.conf
 
 echo $PATH > PATH
